@@ -1,11 +1,10 @@
-import { EntityRepository, Repository } from "typeorm";
-import { CreateTaskDto } from "./dto/create-task.dto";
-import { TaskStatus } from "./task-status.enum";
-import { Task } from "./task.entity";
+import { EntityRepository, Repository } from 'typeorm';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { TaskStatus } from './task-status.enum';
+import { Task } from './task.entity';
 
 @EntityRepository(Task)
-export class TaskRepository extends Repository<Task>{
-
+export class TaskRepository extends Repository<Task> {
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     const { title, description } = createTaskDto;
 
@@ -17,5 +16,9 @@ export class TaskRepository extends Repository<Task>{
 
     await this.save(task);
     return task;
+  }
+
+  async deleteTask(task: Task): Promise<void> {
+    await this.delete(task);
   }
 }
