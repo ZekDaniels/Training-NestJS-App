@@ -17,8 +17,4 @@ export class TaskRepository extends Repository<Task> {
     await this.save(task);
     return task;
   }
-
-  async deleteTask(task: Task): Promise<void> {
-    await this.delete(task);
-  }
 }
