@@ -1,4 +1,5 @@
 import { Test } from '@nestjs/testing';
+import { TaskStatus } from './task-status.enum';
 import { TaskRepository } from './task.repository';
 import { TasksService } from './tasks.service';
 
@@ -31,12 +32,27 @@ describe('Tasks Service', () => {
 
   describe('getTasks', () => {
     it('calls TaskRepository.getTasks and return the result', async () => {
-      expect(tasksRepository.getTasks).not.toHaveBeenCalled();
-
-      // call taskService.getTasks, which should then call repository's getTasks
       tasksRepository.getTasks.mockResolvedValue('someValue');
       const result = await tasksService.getTasks(null, mockUser);
       expect(result).toEqual('someValue');
     });
+  });
+
+  describe('getTaskById', () => {
+    
+
+    it('calls TaskRepository.getTaskById and return the result', async () => {
+      const mockTask = {
+        title: 'Test Title',
+        description: 'Test Desc',
+        id: 'someID',
+        status: TaskStatus.DONE,
+      };
+
+      tasksRepository.findOne.mockResolvedValue(mockTask);
+      const result = await tasksService.getTaskById('someID', mockUser);
+      expect(result).toEqual(mockTask);
+    });
+
   });
 });
